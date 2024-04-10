@@ -1,7 +1,14 @@
 package com.gyc.mallchat.consumer.user.service.impl;
 
+import com.gyc.mallchat.consumer.common.constant.RedisKey;
+import com.gyc.mallchat.consumer.common.utils.JwtUtils;
+import com.gyc.mallchat.consumer.common.utils.RedisUtils;
 import com.gyc.mallchat.consumer.user.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ClassName: LoginServiceImpl
@@ -15,17 +22,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginServiceImpl implements LoginService {
 
+    public static final int USER_TOKEN_EXPIRE = 30;
+    @Autowired
+    private JwtUtils jwtUtils;
 
-    /**
-     * 校验token是不是有效
-     *
-     * @param token
-     * @return
-     */
-    @Override
-    public boolean verify(String token) {
-        return false;
-    }
 
     /**
      * 刷新token有效期
@@ -40,13 +40,22 @@ public class LoginServiceImpl implements LoginService {
     /**
      * 获取token信息
      *
-     * @param id
+     * @param uid
      * @return
      */
     @Override
-    public String login(Long id) {
-        return null;
+    public String login(Long uid) {
+        String token = jwtUtils.createToken(uid);
+        //存到redis中
+        RedisUtils.set(getUserTokenKey(uid), token, USER_TOKEN_EXPIRE, TimeUnit.DAYS);
+        return token;
     }
+
+
+    private String getUserTokenKey(Long uid) {
+        return RedisKey.getUserTokenKey(RedisKey.USER_TOKEN_KEY, uid);
+    }
+
 
     /**
      * 如果token有效，返回uid
@@ -56,6 +65,12 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public Long getValidUid(String token) {
-        return null;
+        Long uid = jwtUtils.getUidOrNull(token);
+        if (Objects.isNull(uid)) {
+            return null;
+        }
+        String oldToken = RedisUtils.getStr(getUserTokenKey(uid));
+        //新的token和老token一致，才能返回uid，不一致说明更新了token
+        return Objects.equals(oldToken, token) ? uid : null;
     }
 }

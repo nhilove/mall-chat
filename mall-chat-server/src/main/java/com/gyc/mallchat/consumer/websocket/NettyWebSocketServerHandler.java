@@ -1,10 +1,12 @@
 package com.gyc.mallchat.consumer.websocket;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.gyc.mallchat.consumer.websocket.domain.enums.WSReqTypeEnum;
 import com.gyc.mallchat.consumer.websocket.domain.vo.req.WebSocketBaseReq;
 import com.gyc.mallchat.consumer.websocket.service.WebSocketService;
+import com.gyc.mallchat.consumer.websocket.utils.NettyUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,6 +32,7 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 
     private WebSocketService webSocketService;
 
+
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         //初次连接时会将websocketService初始化好放进容器中
@@ -48,6 +51,11 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+            String token = NettyUtil.getAttr(ctx.channel(), NettyUtil.TOKEN);
+            if (StrUtil.isNotBlank(token)) {
+                //登陆过，会生成token保存到本地，每次websocket请求会带上token,如果有直接进行认证
+                webSocketService.authorize(ctx.channel(), token);
+            }
             System.out.println("握手完成事件");
         } else if ((evt instanceof IdleStateEvent)) {
             IdleStateEvent event = (IdleStateEvent) evt;
@@ -76,11 +84,10 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
                 // 微信登录，生成二维码，返回给前端
                 webSocketService.handlerLogin(ctx.channel());
                 break;
-            case AUTHORIZE://2是认证
-                //扫码之后进行认证，获取用户信息填充会用户信息表中
-
+            case AUTHORIZE://3是认证
+                webSocketService.authorize(ctx.channel(), req.getData());
                 break;
-            case HEARTBEAT://3是心跳
+            case HEARTBEAT://2是心跳
                 break;
         }
 

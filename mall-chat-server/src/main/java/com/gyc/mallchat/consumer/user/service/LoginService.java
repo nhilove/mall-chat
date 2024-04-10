@@ -11,13 +11,6 @@ package com.gyc.mallchat.consumer.user.service;
  */
 public interface LoginService {
 
-    /**
-     * 校验token是不是有效
-     *
-     * @param token
-     * @return
-     */
-    boolean verify(String token);
 
     /**
      * 刷新token有效期

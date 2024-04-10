@@ -43,4 +43,11 @@ public interface WebSocketService {
      * @param code
      */
     void waitAuthorize(Integer code);
+
+    /**
+     * 授权验证
+     * @param channel
+     * @param data
+     */
+    void authorize(Channel channel, String data);
 }
