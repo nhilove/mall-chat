@@ -1,5 +1,6 @@
 package com.gyc.mallchat.consumer.websocket.service;
 
+import com.gyc.mallchat.consumer.websocket.domain.vo.resp.WSBaseResp;
 import io.netty.channel.Channel;
 
 /**
@@ -50,4 +51,10 @@ public interface WebSocketService {
      * @param data
      */
     void authorize(Channel channel, String data);
+
+    /**
+     * 给所有用户发消息
+     * @param msg
+     */
+    void senMsgToAll(WSBaseResp<?> msg);
 }

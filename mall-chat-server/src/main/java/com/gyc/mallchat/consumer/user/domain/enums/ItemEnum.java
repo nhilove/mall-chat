@@ -1,4 +1,4 @@
-package com.gyc.mallchat.consumer.websocket.domain.enums;
+package com.gyc.mallchat.consumer.user.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

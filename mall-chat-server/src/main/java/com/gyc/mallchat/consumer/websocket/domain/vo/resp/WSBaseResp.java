@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * ClassName: WebSocketBaseResp
+ * ClassName: WSBaseResp
  * Package: com.gyc.mallchat.consumer.websocket.domain
  * Description:
  *
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WebSocketBaseResp<T> {
+public class WSBaseResp<T> {
 
 
     private Integer type;

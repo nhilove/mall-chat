@@ -53,6 +53,12 @@ public class DtoTest {
         System.out.println(validUid);
     }
 
+    @Test
+    public void createToken() {
+        String token = loginService.login(11002L);
+        System.out.println(token);
+    }
+
 
     @Test
     public void user() {
