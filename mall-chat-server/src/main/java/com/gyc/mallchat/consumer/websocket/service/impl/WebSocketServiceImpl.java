@@ -8,10 +8,11 @@ import com.gyc.mallchat.consumer.common.event.UserOnlineEvent;
 import com.gyc.mallchat.consumer.user.dao.UserDao;
 import com.gyc.mallchat.consumer.user.domain.entity.IpInfo;
 import com.gyc.mallchat.consumer.user.domain.entity.User;
-import com.gyc.mallchat.consumer.user.domain.enums.RoleEnum;
 import com.gyc.mallchat.consumer.user.service.IRoleService;
 import com.gyc.mallchat.consumer.user.service.LoginService;
 import com.gyc.mallchat.consumer.websocket.domain.dto.WebSocketExtraDto;
+
+import com.gyc.mallchat.consumer.user.domain.enums.RoleEnum;
 import com.gyc.mallchat.consumer.websocket.domain.vo.resp.WSBaseResp;
 import com.gyc.mallchat.consumer.websocket.service.WebSocketService;
 import com.gyc.mallchat.consumer.websocket.service.adapter.WebSocketAdapter;
@@ -172,7 +173,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         WebSocketExtraDto webSocketExtraDto = ONLINE_WS_MAP.get(channel);
         webSocketExtraDto.setUid(user.getId());
         //推送消息
-        sendMessage(channel, WebSocketAdapter.buildResp(token, user, iRoleService.hasPower(user.getId(), RoleEnum.MALL_CHAT_MANAGE)));
+        sendMessage(channel, WebSocketAdapter.buildResp(token, user, iRoleService.hasPower(user.getId(), RoleEnum.CHAT_MANAGER)));
         //用户上线的事件
         user.setLastOptTime(new Date());
         IpInfo ipInfo = new IpInfo();

@@ -1,7 +1,5 @@
 package com.gyc.mallchat.consumer.user.service;
 
-import com.gyc.mallchat.consumer.user.domain.entity.Role;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.gyc.mallchat.consumer.user.domain.enums.RoleEnum;
 
 /**

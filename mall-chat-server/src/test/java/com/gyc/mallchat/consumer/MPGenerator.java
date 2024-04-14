@@ -57,7 +57,7 @@ public class MPGenerator {
         strategyConfig.setEntityTableFieldAnnotationEnable(true);
         //todo 这里修改需要自动生成的表结构
         strategyConfig.setInclude(
-                "role","user_role","black"
+                "user_apply","user_friend","secure_invoke_record"
         );
         //自动填充字段,在项目开发过程中,例如创建时间，修改时间,每次，都需要我们来指定，太麻烦了,设置为自动填充规则，就不需要我们赋值咯
         List<TableFill> list = new ArrayList<TableFill>();
@@ -81,4 +81,6 @@ public class MPGenerator {
         dataSourceConfig.setPassword("20020109gyc");
         dataSourceConfig.setUrl("jdbc:mysql://110.42.252.216:3306/mallchat?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC");
     }
+
+
 }

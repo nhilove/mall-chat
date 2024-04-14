@@ -1,8 +1,8 @@
 package com.gyc.mallchat.consumer.user.service.impl;
 
-import com.gyc.mallchat.consumer.user.domain.enums.RoleEnum;
 import com.gyc.mallchat.consumer.user.service.IRoleService;
 import com.gyc.mallchat.consumer.user.service.cache.UserCache;
+import com.gyc.mallchat.consumer.user.domain.enums.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

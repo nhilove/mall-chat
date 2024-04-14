@@ -9,14 +9,15 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * Description: 权限
- * Date: 2023-04-12
+ * Description: 角色枚举
+ * Author: <a href="https://github.com/zongzibinbin">abin</a>
+ * Date: 2023-03-19
  */
 @AllArgsConstructor
 @Getter
 public enum RoleEnum {
-    ADMIN(1l, "超级管理员"),
-    MALL_CHAT_MANAGE(2l, "抹茶聊天管理者"),
+    ADMIN(1L, "超级管理员"),
+    CHAT_MANAGER(2L, "抹茶群聊管理"),
     ;
 
     private final Long id;
@@ -28,7 +29,7 @@ public enum RoleEnum {
         cache = Arrays.stream(RoleEnum.values()).collect(Collectors.toMap(RoleEnum::getId, Function.identity()));
     }
 
-    public static RoleEnum of(Integer type) {
+    public static RoleEnum of(Long type) {
         return cache.get(type);
     }
 }

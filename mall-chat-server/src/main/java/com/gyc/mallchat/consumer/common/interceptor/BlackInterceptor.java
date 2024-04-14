@@ -55,6 +55,4 @@ public class BlackInterceptor implements HandlerInterceptor {
         return set.contains(target.toString());
     }
 
-
-
 }

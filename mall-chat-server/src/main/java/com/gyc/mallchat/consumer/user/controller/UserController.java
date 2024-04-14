@@ -58,6 +58,7 @@ public class UserController {
         userService.wearBadge(RequestHolder.get().getUid(), wearingBadgeReq.getItemId());
         return ApiResult.success();
     }
+
     @ApiOperation( "拉黑用户" )
     @PutMapping( "/black" )
     public ApiResult<Void> black(@Valid @RequestBody BlackReq blackReq) {

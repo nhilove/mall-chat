@@ -6,6 +6,8 @@ import com.gyc.mallchat.consumer.user.domain.entity.User;
 import com.gyc.mallchat.consumer.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务实现类
@@ -29,5 +31,18 @@ public class UserDao extends ServiceImpl<UserMapper, User> {
         lambdaUpdate().eq(User::getId, id)
                 .set(User::getStatus, YesOrNoEnum.YES.getStatus())
                 .update();
+    }
+
+    /**
+     * 批量查询好友信息
+     *
+     * @param uids
+     * @return
+     */
+    public List<User> getUserFriendList(List<Long> uids) {
+        return lambdaQuery()
+                .in(User::getId, uids)
+                .select(User::getId, User::getActiveStatus, User::getAvatar, User::getName)
+                .list();
     }
 }
